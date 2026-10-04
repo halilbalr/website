@@ -30,7 +30,7 @@
     return 0.2126 * lin(n >> 16) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255);
   }
   const inkOn = (hex) => (luminance(hex) > 0.36 ? "#1d1d1b" : "#ffffff");
-  const fit = (text, width, max, k = 0.62) => Math.min(max, Math.floor((width / (Math.max(text.length, 1) * k)) * 10) / 10);
+  const fit = (text, width, max, k = 0.74) => Math.min(max, Math.floor((width / (Math.max(text.length, 1) * k)) * 10) / 10);
 
   /* ---------- Produktbilder ---------- */
   const WHITE = "#fbfbf7";

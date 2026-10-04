@@ -750,13 +750,13 @@
       swish: `${field("sw-phone", "Mobilnummer för Swish", { type: "tel", autocomplete: "tel", inputmode: "tel", value: d["sw-phone"] || d["co-phone"] || "" })}
         <div class="demo-note">${icon("shield")}<span>Du godkänner betalningen i Swish-appen. I demobutiken simuleras godkännandet.</span></div>`,
       faktura: `<div class="demo-note">${icon("shield")}<span>Fakturan skickas till din e-post och ska betalas inom 30 dagar. Ingen avgift. En kreditupplysning kan göras.</span></div>`,
-      delbetala: `<div class="demo-note">${icon("shield")}<span><strong class="num">3 × ${S.money(Math.ceil(t.total / 3))}</strong> per månad. 0 % ränta, ingen uppläggningsavgift. Totalt ${S.money(t.total)}.</span></div>`
+      delbetala: `<div class="demo-note">${icon("shield")}<span><strong class="num" id="delbetala-amount">3 × ${S.money(Math.ceil(t.total / 3))}</strong> per månad. 0 % ränta, ingen uppläggningsavgift.</span></div>`
     };
-    return SHOP.payments.map((m) => `<label class="choice"><input type="radio" name="pay" value="${m.id}" data-action="co-pay" ${CO.pay === m.id ? "checked" : ""}>
+    return SHOP.payments.map((m) => `<div class="paybox"><label class="choice"><input type="radio" name="pay" value="${m.id}" data-action="co-pay" ${CO.pay === m.id ? "checked" : ""}>
       <span class="choice__title">${esc(m.name)}</span>
-      ${m.id === "kort" ? `<span class="card-icons"><span>VISA</span><span>MC</span><span>AMEX</span></span>` : "<span></span>"}
-      <span class="choice__desc">${esc(m.desc)}</span>
-      <div class="choice__extra" data-pay-extra="${m.id}" ${CO.pay === m.id ? "" : "hidden"}>${extra[m.id]}</div></label>`).join("");
+      ${m.id === "kort" ? `<span class="card-icons" aria-hidden="true"><span>VISA</span><span>MC</span><span>AMEX</span></span>` : "<span></span>"}
+      <span class="choice__desc">${esc(m.desc)}</span></label>
+      <div class="choice__extra" data-pay-extra="${m.id}" ${CO.pay === m.id ? "" : "hidden"}>${extra[m.id]}</div></div>`).join("");
   };
 
   V.checkoutSummary = function () {
@@ -811,7 +811,7 @@
           <section class="step" aria-labelledby="st5">
             <div class="step__head"><span class="step__num" aria-hidden="true">5</span><h2 id="st5" style="font-size:var(--step-2)">Bekräfta</h2></div>
             <label class="check"><input type="checkbox" id="co-save" ${CO.draft["co-save"] === false ? "" : "checked"}> <span>Spara mina uppgifter på Mina sidor till nästa köp.</span></label>
-            <div class="field" id="co-terms-field"><label class="check"><input type="checkbox" id="co-terms" aria-describedby="co-terms-err"> <span>Jag godkänner <a class="link" href="#/info/villkor" target="_blank">köpvillkoren</a> och har läst <a class="link" href="#/info/integritet" target="_blank">integritetspolicyn</a>.</span></label><span class="error" id="co-terms-err" hidden></span></div>
+            <div class="field" id="co-terms-field"><label class="check"><input type="checkbox" id="co-terms" aria-describedby="co-terms-err"> <span>Jag godkänner <a class="link" href="#/info/villkor">köpvillkoren</a> och har läst <a class="link" href="#/info/integritet">integritetspolicyn</a>.</span></label><span class="error" id="co-terms-err" hidden></span></div>
             <button class="btn btn--primary btn--lg btn--block" type="submit" id="co-submit">${icon("lock", "ico--sm")} <span id="co-submit-label">Slutför köp – ${S.money(t.total)}</span></button>
             ${SHOP.demo ? `<p class="muted" style="font-size:12px;text-align:center">Demobutik: ingen betalning dras och inget skickas.</p>` : ""}
           </section>
